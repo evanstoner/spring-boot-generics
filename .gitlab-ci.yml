@@ -1,0 +1,14 @@
+image: maven:3-jdk-8-alpine
+
+variables:
+  MAVEN_OPTS: -Dmaven.repo.local=$CI_PROJECT_DIR/.m2
+
+cache:
+  paths:
+    - .m2
+  key: $CI_PROJECT_ID
+
+maven_compile:
+  stage: build
+  script:
+    - mvn -B -U compile
