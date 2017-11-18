@@ -19,7 +19,7 @@ import javax.validation.Valid;
  * @param <S> The service that this controller uses to make application changes.
  */
 public class GenericReadWriteController<E extends BaseEntity, S extends GenericReadWriteService<E>>
-        extends GenericBaseController<E> {
+        extends GenericReadOnlyController<E, S> {
 
     @Autowired
     protected S service;
@@ -27,16 +27,6 @@ public class GenericReadWriteController<E extends BaseEntity, S extends GenericR
     @RequestMapping(method = RequestMethod.POST)
     public Object post(@RequestBody @Valid E e) {
         return wrapOne(service.create(e));
-    }
-
-    @RequestMapping(method = RequestMethod.GET)
-    public Object get() {
-        return wrapMany(service.findAll());
-    }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Object get(@PathVariable Long id) {
-        return wrapOne(service.findOne(id));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
